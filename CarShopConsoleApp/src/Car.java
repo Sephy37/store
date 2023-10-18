@@ -43,7 +43,7 @@ public class Car {
 	}
 	
 	public String toString() {
-		return "Make:" + getMake() + "Model: " + getModel() + "Price: " + getPrice();
+		return " Make: " + getMake() + " Model: " + getModel() + " Price: " + getPrice() + "\n";
 	}
 
 }
