@@ -12,9 +12,29 @@ public class CarShopConsoleApp {
 		new CarShopConsoleApp().startingPoint();
 	}
 	
+	private void welcomeMessage() {
+		System.out.println("********************");
+		System.out.println("*    Welcome to    *");
+		System.out.println("*     Car World    *");
+		System.out.println("********************");
+	}
+	
+	private void menuOptions() {
+		System.out.println("********************");
+		System.out.println("*1.)Add a Car      *");
+		System.out.println("*2.)Print Inventory*");
+		System.out.println("*3.)Add to Cart    *");
+		System.out.println("*4.)CheckOut       *");
+		System.out.println("*0.)Exit program   *");
+		System.out.println("********************");
+	}
+	
 	private void startingPoint() {
+		welcomeMessage();
+		menuOptions();
 		int action = getChoice(choice);
 		while(action != 0) {
+			menuOptions();
 			action = getChoice(choice);
 		}
 	}
@@ -34,7 +54,11 @@ public class CarShopConsoleApp {
 		case 2: printInventory(s,c);
 			break;
 			
-		case 3:
+		case 3: buyCar(s);
+			break;
+			
+		case 4: printInventory(s,c);
+				checkOut(s);
 			break;
 			
 		case 0: exitProgram();
@@ -69,10 +93,7 @@ public class CarShopConsoleApp {
 			price = addPrice(price);
 			Car c = new Car(make,model,price);
 			s.getCarList().add(c);
-			
-			
 		}
-		
 		System.out.println("Cars: " + s.getCarList());
 	}
 	
@@ -90,9 +111,7 @@ public class CarShopConsoleApp {
 	
 	private double addPrice(double userInput) {
 		System.out.println("Enter price of car: ");
-		//userInput = scanner.nextDouble();
 		userInput = checkInput();
-		scanner.nextLine();
 		return userInput;
 	}
 	
@@ -104,12 +123,41 @@ public class CarShopConsoleApp {
 		System.out.println("Exiting...........");
 	}
 	
-	private Car printInventory(Store s,Car c) {
+	/*private Car printInventory(Store s,Car c) {
 		for(Car f : s.getCarList()) {
 			System.out.println(f.toString());
 		}
 		return c;
+	}*/
+	
+	private Car printInventory(Store s,Car c) {
+		for(int i = 0; i < s.getCarList().size(); i++) {
+			System.out.println("Car #" + i + " " + s.getCarList().get(i) );
+		}
+		return c;
 	}
+	
+	private int buyCar(Store s) {
+		System.out.println("Which Car would you like to buy? ");
+		int carChosen = checkInput();
+		s.getShoppingList().add(s.getCarList().get(carChosen));
+		printShoppingCart(s);
+		return carChosen;
+	}
+	
+	private Store printShoppingCart(Store s) {
+		System.out.println("Cars you have chosen to buy: ");
+		for(int i = 0; i < s.getShoppingList().size(); i++) {
+			System.out.println("Car #" + i + " " + s.getShoppingList().get(i) );
+		}
+		return s;
+	}
+	
+	private void checkOut(Store s) {
+		double total = s.checkOut();
+		System.out.println("The total cost of your items is: " + total);
+	}
+	
 	
 	private int checkInput() {
     	boolean isValid = true;
